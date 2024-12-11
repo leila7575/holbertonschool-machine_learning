@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
+"""
+This module contains the function two.
+"""
 import numpy as np
 import matplotlib.pyplot as plt
-"""
- This module contains the function two.
-"""
 
 
 def two():
-    """Defines a line graph representing C14 and Ra-226 exponential decay"""
+    """Defines a line graph representing C14 and Ra-226 exponential decay."""
     x = np.arange(0, 21000, 1000)
     r = np.log(0.5)
     t1 = 5730
