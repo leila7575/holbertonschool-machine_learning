@@ -9,7 +9,7 @@ def poly_integral(poly, C=0):
     if not isinstance(poly, list) or not isinstance(C, int) or len(poly) == 0:
         return None
     if poly == [0]:
-        return [0, 7]
+        return [0]
     integral = [C]
     for exp, coefficient in enumerate(poly):
         integral_coefficient = coefficient / (exp + 1)
