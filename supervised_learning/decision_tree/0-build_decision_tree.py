@@ -4,7 +4,8 @@ import numpy as np
 
 
 class Node:
-    def __init__(self, feature=None, threshold=None, left_child=None, right_child=None, is_root=False, depth=0):
+    def __init__(self, feature=None, threshold=None, left_child=None,
+                 right_child=None, is_root=False, depth=0):
         self.feature = feature
         self.threshold = threshold
         self.left_child = left_child
@@ -15,7 +16,7 @@ class Node:
         self.depth = depth
 
     def max_depth_below(self):
-        """Recursively calculates the """
+        """Recursively calculates the maximum of the depths of the nodes."""
 
         if self.left_child is not None:
             max_depth_left = self.left_child.max_depth_below()
@@ -40,7 +41,8 @@ class Leaf(Node):
 
 
 class Decision_Tree():
-    def __init__(self, max_depth=10, min_pop=1, seed=0, split_criterion="random", root=None):
+    def __init__(self, max_depth=10, min_pop=1, seed=0,
+                 split_criterion="random", root=None):
         self.rng = np.random.default_rng(seed)
         if root:
             self.root = root
