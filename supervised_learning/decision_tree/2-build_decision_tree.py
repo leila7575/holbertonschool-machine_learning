@@ -47,12 +47,11 @@ class Node:
         """Returns string representation of nodes"""
         def left_child_add_prefix(text):
             """Adds prefix +---> or  | to left branch lines."""
-            lines = text.split("\n")
-            new_text = "    +---> " + lines[0] + "\n"
-            for x in lines[1:]:
-                if x.strip():
-                    new_text += "    |      " + x + "\n"
-            return new_text
+            lines=text.split("\n")
+            new_text="    +--"+lines[0]+"\n"
+            for x in lines[1:] :
+                new_text+=("    |  "+x)+"\n"
+            return (new_text)
 
         def right_child_add_prefix(text):
             """Adds prefix +---> or  | to right branch lines."""
@@ -70,11 +69,11 @@ class Node:
 
         if self.is_root:
             return (
-                f"root[feature={self.feature}, threshold={self.threshold}]\n"
+                f"root [feature={self.feature}, threshold={self.threshold}]\n"
                 f"{res_left}{res_right}"
             )
         return (
-            f"node[feature={self.feature}, threshold={self.threshold}]\n"
+            f"node [feature={self.feature}, threshold={self.threshold}]\n"
             f"{res_left}{res_right}"
         )
 
