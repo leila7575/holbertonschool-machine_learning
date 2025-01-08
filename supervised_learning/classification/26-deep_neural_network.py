@@ -3,6 +3,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import pickle
 
 class DeepNeuralNetwork:
     """Defines a deep neural network for binary classification."""
@@ -138,20 +139,24 @@ class DeepNeuralNetwork:
         return self.evaluate(X, Y)
     
     def save(self, filename):
-        """Save the instance object to a file in pickle format"""
+        """Saves the instance object to a file using pickle format."""
         if not filename.endswith('.pkl'):
             filename += '.pkl'
-        with open(filename, 'wb') as f:
-            np.save(f, self.__dict__)
+        try:
+            with open(filename, 'wb') as f:
+                pickle.dump(self, f)
+            print(f"Model saved to {filename}")
+        except Exception as e:
+            print(f"Error saving object: {e}")
 
     @staticmethod
     def load(filename):
-        """Load a pickled DeepNeuralNetwork object"""
+        """Load a DeepNeuralNetwork object from a pickle file"""
         try:
             with open(filename, 'rb') as f:
-                obj = DeepNeuralNetwork(1, [1])
-                obj.__dict__ = np.load(f, allow_pickle=True).item()
+                obj = pickle.load(f)
                 return obj
         except FileNotFoundError:
+            print(f"File not found.")
             return None
         
