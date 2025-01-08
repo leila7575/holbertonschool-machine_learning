@@ -55,7 +55,7 @@ class DeepNeuralNetwork:
                 ) + self.__weights[f'b{i}']
             A = 1/(1 + np.exp(-Z))
             self.__cache[f'A{i}'] = A
-            self.__cache[f'Z{i}'] = A
+            self.__cache[f'Z{i}'] = Z
         return A, self.__cache
 
     def cost(self, Y, A):
@@ -79,7 +79,6 @@ class DeepNeuralNetwork:
     def gradient_descent(self, Y, cache, alpha=0.05):
         """Calculates one pass of gradient descent."""
         m = Y.shape[1]
-        grads = {}
 
         A_final = cache[f'A{self.L}']
         dA = -(np.divide(Y, A_final) - np.divide(1 - Y, 1 - A_final))
@@ -89,10 +88,8 @@ class DeepNeuralNetwork:
             Z = cache[f'Z{i}']
             sigmoid_Z = 1 / (1 + np.exp(-Z))
             dZ = dA * sigmoid_Z * (1 - sigmoid_Z)
-            grads[f'dW{i}'] = (1 / m) * np.dot(dZ, A_prev.T)
-            grads[f'db{i}'] = (1 / m) * np.sum(dZ, axis=1, keepdims=True)
+            dW = (1 / m) * np.dot(dZ, A_prev.T)
+            db = (1 / m) * np.sum(dZ, axis=1, keepdims=True)
             dA = np.dot(self.__weights[f'W{i}'].T, dZ)
-
-        for i in range(1, self.L + 1):
-            self.__weights[f'W{i}'] -= alpha * grads[f'dW{i}']
-            self.__weights[f'b{i}'] -= alpha * grads[f'db{i}']
+            self.__weights[f'W{i}'] -= alpha * dW
+            self.__weights[f'b{i}'] -= alpha * db
