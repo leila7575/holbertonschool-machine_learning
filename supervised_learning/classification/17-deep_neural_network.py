@@ -19,7 +19,7 @@ class DeepNeuralNetwork:
         self.nx = nx
         self.layers = layers
         self.__L = len(layers)
-        self.cache = {}
+        self.__cache = {}
         self.__weights = {}
         layer_prev = nx
         for i in range(self.L):
@@ -37,7 +37,7 @@ class DeepNeuralNetwork:
         return self.__L
 
     @property
-    def __cache(self):
+    def cache(self):
         """Retrieves the cache storing intermediate values."""
         return self.__cache
 
