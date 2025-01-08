@@ -131,7 +131,7 @@ class DeepNeuralNetwork:
             plt.title("Training Cost")
             plt.xlabel("iteration")
             plt.ylabel("cost")
-            array = np.arange(0, 5001, 500)
+            array = np.arange(0, 5001, 1000)
             plt.xticks(array)
             plt.show()
             
