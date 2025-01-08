@@ -9,10 +9,10 @@ def one_hot_decode(one_hot):
 
     if not isinstance(one_hot, np.ndarray):
         return None
-    
+
     if one_hot.ndim != 2:
         return None
-    
+
     label_vector = []
 
     for i in one_hot.T:
