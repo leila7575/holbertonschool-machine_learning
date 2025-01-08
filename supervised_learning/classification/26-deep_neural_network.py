@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pickle
 
+
 class DeepNeuralNetwork:
     """Defines a deep neural network for binary classification."""
     def __init__(self, nx, layers):
@@ -95,7 +96,10 @@ class DeepNeuralNetwork:
             self.__weights[f'W{i}'] -= alpha * dW
             self.__weights[f'b{i}'] -= alpha * db
 
-    def train(self, X, Y, iterations=5000, alpha=0.05, verbose=True, graph=True, step=100):
+    def train(
+        self, X, Y, iterations=5000, alpha=0.05,
+        verbose=True, graph=True, step=100
+    ):
         """Trains the neural network over a certain number of iterations
         based on gradient descent."""
         if not isinstance(iterations, int):
@@ -107,7 +111,7 @@ class DeepNeuralNetwork:
             raise TypeError("alpha must be a float")
         elif alpha <= 0:
             raise ValueError("alpha must be positive")
-        
+
         if verbose or graph:
             if not isinstance(step, int):
                 raise TypeError("step must be an integer")
@@ -135,9 +139,8 @@ class DeepNeuralNetwork:
             array = np.arange(0, 5001, 1000)
             plt.xticks(array)
             plt.show()
-            
         return self.evaluate(X, Y)
-    
+
     def save(self, filename):
         """Saves the instance object to a file using pickle format."""
         if not filename.endswith('.pkl'):
@@ -145,7 +148,6 @@ class DeepNeuralNetwork:
         try:
             with open(filename, 'wb') as f:
                 pickle.dump(self, f)
-            print(f"Model saved to {filename}")
         except Exception as e:
             print(f"Error saving object: {e}")
 
@@ -159,4 +161,3 @@ class DeepNeuralNetwork:
         except FileNotFoundError:
             print(f"File not found.")
             return None
-        
