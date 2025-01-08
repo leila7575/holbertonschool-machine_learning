@@ -80,14 +80,14 @@ class DeepNeuralNetwork:
         """Calculates one pass of gradient descent."""
         m = Y.shape[1]
 
-        A_final = cache[f'A{self.L}']
-        dA = -(np.divide(Y, A_final) - np.divide(1 - Y, 1 - A_final))
+        A_output = cache[f'A{self.L}']
+        dA = -(np.divide(Y, A_output) - np.divide(1 - Y, 1 - A_output))
 
         for i in reversed(range(1, self.L + 1)):
             A_prev = cache[f'A{i - 1}']
             Z = cache[f'Z{i}']
-            sigmoid_Z = 1 / (1 + np.exp(-Z))
-            dZ = dA * sigmoid_Z * (1 - sigmoid_Z)
+            sigmoid = 1 / (1 + np.exp(-Z))
+            dZ = dA * sigmoid * (1 - sigmoid)
             dW = (1 / m) * np.dot(dZ, A_prev.T)
             db = (1 / m) * np.sum(dZ, axis=1, keepdims=True)
             dA = np.dot(self.__weights[f'W{i}'].T, dZ)
