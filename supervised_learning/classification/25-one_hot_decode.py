@@ -10,9 +10,6 @@ def one_hot_decode(one_hot):
     if not isinstance(one_hot, np.ndarray):
         return None
 
-    label_vector = []
+    label_vector = np.argmax(one_hot, axis=0)
 
-    for i in one_hot.T:
-        label_vector.append(np.argmax(i))
-
-    return np.array(label_vector)
+    return label_vector
