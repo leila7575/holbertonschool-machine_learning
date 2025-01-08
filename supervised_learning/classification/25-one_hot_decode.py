@@ -13,8 +13,6 @@ def one_hot_decode(one_hot):
     label_vector = []
 
     for i in one_hot.T:
-        for index, value in enumerate(i):
-            if value == 1:
-                label_vector.append(index)
+        label_vector.append(np.argmax(i))
 
     return np.array(label_vector)
