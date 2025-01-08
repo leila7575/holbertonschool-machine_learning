@@ -115,7 +115,7 @@ class DeepNeuralNetwork:
         if verbose or graph:
             if not isinstance(step, int):
                 raise TypeError("step must be an integer")
-            elif step < 0 and step <= iterations:
+            elif step <= 0 and step > iterations:
                 raise ValueError("step must be positive and <= iterations")
 
         y_values = []
