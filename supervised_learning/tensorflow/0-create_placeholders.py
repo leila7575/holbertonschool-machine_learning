@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """This module contains the function create_placeholder."""
 
-import numpy as np
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 
