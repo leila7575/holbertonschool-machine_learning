@@ -16,10 +16,16 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
         ))
     model.add(K.layers.Dropout(rate=1 - keep_prob))
 
-    for units, activation in zip(layers[1:], activations[1:]):
-        model.add(K.layers.Dense(
-            units=units, activation=activation,
-            kernel_regularizer=K.regularizers.L2(l2=lambtha)
-            ))
-        model.add(K.layers.Dropout(rate=1 - keep_prob))
+    for i, (units, activation) in enumerate(zip(layers[1:], activations[1:])):
+        if i < len(layers) - 2:
+            model.add(K.layers.Dense(
+                units=units, activation=activation,
+                kernel_regularizer=K.regularizers.L2(l2=lambtha)
+                ))
+            model.add(K.layers.Dropout(rate=1 - keep_prob))
+        else:
+            model.add(K.layers.Dense(
+                units=units, activation=activation,
+                kernel_regularizer=K.regularizers.L2(l2=lambtha)
+                ))
     return model
