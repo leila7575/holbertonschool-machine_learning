@@ -2,7 +2,6 @@
 """This module contains the function optimize_model."""
 
 
-import tensorflow as tf
 import tensorflow.keras as K
 
 
