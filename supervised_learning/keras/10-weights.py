@@ -13,5 +13,5 @@ def save_weights(network, filename, save_format='keras'):
 
 def load_weights(network, filename):
     """loads the model's weights."""
-    model = K.models.load_weights(filename)
+    network.load_weights(filename)
     return None
