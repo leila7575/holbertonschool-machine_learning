@@ -19,16 +19,16 @@ def train_model(
                 monitor='val_loss', patience=patience
             )
             callbacks.append(early_stop)
-            if learning_rate_decay:
-                learning_rate_schedule = (
-                    K.optimizers.schedules.InverseTimeDecay(
-                        initial_learning_rate=alpha,
-                        decay_steps=1,
-                        decay_rate=decay_rate,
-                        staircase=True
-                    )
+        if learning_rate_decay:
+            learning_rate_schedule = (
+                K.optimizers.schedules.InverseTimeDecay(
+                    initial_learning_rate=alpha,
+                    decay_steps=1,
+                    decay_rate=decay_rate,
+                    staircase=True
                 )
-                network.optimizer.learning_rate = learning_rate_schedule
+            )
+            network.optimizer.learning_rate = learning_rate_schedule
 
             class PrintCallback(K.callbacks.Callback):
                 def on_epoch_begin(self, epoch, logs=None):
