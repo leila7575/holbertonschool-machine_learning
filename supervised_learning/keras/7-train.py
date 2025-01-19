@@ -36,7 +36,7 @@ def train_model(
                     print(
                         f'Epoch {epoch + 1}: '
                         f'LearningRateScheduler setting learning rate '
-                        f'to {learning_rate}.'
+                        f'to {learning_rate:.6f}. '
                     )
 
             callbacks.append(PrintCallback())
