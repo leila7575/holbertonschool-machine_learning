@@ -5,22 +5,8 @@
 import tensorflow.keras as K
 
 
-def train_model(network,
-                data,
-                labels,
-                batch_size,
-                epochs,
-                validation_data=None,
-                early_stopping=False,
-                patience=0,
-                learning_rate_decay=False,
-                alpha=0.1,
-                decay_rate=1,
-                save_best=False,
-                filepath=None,
-                verbose=True,
-                shuffle=False
-                ):
+def train_model(network, data, labels, batch_size, epochs, validation_data=None, early_stopping=False,
+                patience=0, learning_rate_decay=False, alpha=0.1, decay_rate=1, save_best=False, filepath=None, verbose=True, shuffle=False):
     """Trains the model with mini-batch gradient descent."""
     callbacks = []
     if validation_data is not None:
@@ -54,7 +40,7 @@ def train_model(network,
             if save_best and filepath is not None:
                 model_checkpoint = K.callbacks.ModelCheckpoint(
                     filepath=filepath,
-                    save_best_only=True,
+                    save_best_only=save_best,
                     save_weights_only=False,
                     verbose=verbose
                 )
