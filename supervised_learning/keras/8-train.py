@@ -20,7 +20,7 @@ def train_model(network,
                 filepath=None,
                 verbose=True,
                 shuffle=False
-            ):
+                ):
     """Trains the model with mini-batch gradient descent."""
     callbacks = []
     if validation_data is not None:
@@ -51,6 +51,15 @@ def train_model(network,
 
             callbacks.append(PrintCallback())
 
+            if save_best and filepath is not None:
+                model_checkpoint = K.callbacks.ModelCheckpoint(
+                    filepath=filepath,
+                    save_best_only=True,
+                    save_weights_only=False,
+                    verbose=verbose
+                )
+                callbacks.append(model_checkpoint)
+
     history = network.fit(
         x=data,
         y=labels,
@@ -62,5 +71,3 @@ def train_model(network,
         callbacks=callbacks
         )
     return history
-
-
