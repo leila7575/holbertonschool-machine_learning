@@ -12,7 +12,11 @@ create_placeholders = __import__('0-create_placeholders').create_placeholders
 create_train_op = __import__('5-create_train_op').create_train_op
 forward_prop = __import__('2-forward_prop').forward_prop
 
-def train(X_train, Y_train, X_valid, Y_valid, layer_sizes, activations, alpha, iterations, save_path="/tmp/model.ckpt"):
+
+def train(
+    X_train, Y_train, X_valid, Y_valid, layer_sizes, activations,
+    alpha, iterations, save_path="/tmp/model.ckpt"
+):
     """trains the neural network."""
 
     x, y = create_placeholders(X_train.shape[1], Y_train.shape[1])
@@ -25,7 +29,6 @@ def train(X_train, Y_train, X_valid, Y_valid, layer_sizes, activations, alpha, i
 
     train_op = create_train_op(loss, alpha)
 
-
     with tf.Session() as sess:
 
         sess.run(tf.global_variables_initializer())
@@ -35,7 +38,9 @@ def train(X_train, Y_train, X_valid, Y_valid, layer_sizes, activations, alpha, i
             cost, acc = sess.run([loss, accuracy], feed_dict=feed_dict)
 
             feed_dict_valid = {x: X_valid, y: Y_valid}
-            val_cost, val_acc = sess.run([loss, accuracy], feed_dict=feed_dict_valid)
+            val_cost, val_acc = sess.run(
+                [loss, accuracy], feed_dict=feed_dict_valid
+            )
 
             if i == 0 or i % 100 == 0 or i == iterations:
                 print(f"After {i} iterations:")
@@ -50,5 +55,3 @@ def train(X_train, Y_train, X_valid, Y_valid, layer_sizes, activations, alpha, i
         saver.save(sess, save_path)
 
     return save_path
-
-
