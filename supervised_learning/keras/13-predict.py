@@ -7,5 +7,5 @@ import tensorflow.keras as K
 
 def predict(network, data, verbose=False):
     """Tests a model"""
-    predictions = network.predict(data, labels, verbose=verbose)
+    predictions = network.predict(data, verbose=verbose)
     return [predictions]
