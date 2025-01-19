@@ -33,11 +33,11 @@ def train_model(
             class PrintCallback(K.callbacks.Callback):
                 def on_epoch_begin(self, epoch, logs=None):
                     learning_rate = alpha / (1 + decay_rate * epoch)
-                    print(
-                        f'Epoch {epoch + 1}: '
-                        f'LearningRateScheduler setting learning rate '
-                        f'to {learning_rate}. '
+                    msg = (
+                        'Epoch {}: '
+                        'LearningRateScheduler setting learning rate to {}. '
                     )
+                    print(msg.format(epoch + 1, learning_rate))
 
             callbacks.append(PrintCallback())
 
