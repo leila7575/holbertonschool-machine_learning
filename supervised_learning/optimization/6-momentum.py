@@ -2,7 +2,6 @@
 """This module contains the function create_momentum_op."""
 
 
-import numpy as np
 import tensorflow as tf
 
 
