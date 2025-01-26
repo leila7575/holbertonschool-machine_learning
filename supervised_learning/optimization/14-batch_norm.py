@@ -9,7 +9,6 @@ def create_batch_norm_layer(prev, n, activation):
     """Creates a batch normalization layer for a neural network."""
     layer = tf.keras.layers.Dense(
         units=n,
-        activation=activation,
         kernel_initializer=tf.keras.initializers.VarianceScaling(mode='fan_avg'),
         )(prev)
     normalized_batch = tf.keras.layers.BatchNormalization(epsilon=1e-7)(layer)
