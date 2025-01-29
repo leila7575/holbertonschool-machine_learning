@@ -13,4 +13,4 @@ def sensitivity(confusion):
         true_positive = confusion[i][i]
         positive = np.sum(confusion, axis=1)
         sensitivity.append(true_positive/positive[i])
-    return sensitivity
+    return np.array(sensitivity)
