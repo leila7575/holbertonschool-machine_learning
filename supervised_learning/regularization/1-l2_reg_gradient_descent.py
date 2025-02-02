@@ -8,12 +8,9 @@ import numpy as np
 def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
     """Weight and bias updates with L2 regularization."""
     m = Y.shape[1]
-    dZ = cache['A' + str(L)] - Y
+    dZ = cache[f'A{L}'] - Y
     for i in reversed(range(1, L + 1)):
-        if i > 1:
-            A_prev = cache[f'A{i - 1}']
-        else:
-            A_prev = cache['A0']
+        A_prev = cache[f'A{i - 1}'] if i > 1 else cache['A0']
         W = weights[f'W{i}']
         b = weights[f'b{i}']
 
