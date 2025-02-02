@@ -8,29 +8,29 @@ import numpy as np
 def dropout_gradient_descent(Y, weights, cache, alpha, keep_prob, L):
     """Updates weights with gradient descent and dropout regularization."""
     m = Y.shape[1]
-    gradients = {}
+    grad = {}
 
-    A = cache[f'A{L}']
-    A_prev = cache[f'A{L - 1}']
-    dZ = A - Y
-
-    gradients[f'dW{L}'] = (1 / m) * np.dot(dZ, A_prev.T)
-    gradients[f'db{L}'] = (1 / m) * np.sum(dZ, axis=1, keepdims=True)
-
-    for i in range(L - 1, 0, -1):
-        A = cache[f'A{i}']
+    dZ = cache[f'A{L}'] - Y
+    for i in reversed(range(1, L + 1)):
         A_prev = cache[f'A{i - 1}']
-        dZ_curr = np.multiply(np.dot(weights[f'W{i + 1}'].T, dZ), 1 - A**2)
+        W = weights[f'W{i}']
+        b = weights[f'b{i}']
+        dW = (1 / m) * np.dot(dZ, A_prev.T)
+        db = (1 / m) * np.sum(dZ, axis=1, keepdims=True)
+        if i < L:
+            dW += (lambtha / m) * W
+            
+        grad[f'dW{i}'] = dW
+        grad[f'db{i}'] = db
+        
+        if i > 1:
+            D = cache[f'D{i}']
+            dA_prev = np.dot(W.T, dZ)
+            dA_prev *= D
+            dA_prev /= keep_prob
+            dZ = dA_prev * (1 - np.square(A_prev))
 
-        gradients[f'dW{i}'] = (1 / m) * np.dot(dZ_curr, A_prev.T)
-        gradients[f'db{i}'] = (1 / m) * np.sum(dZ_curr, axis=1, keepdims=True)
+        weights[f'W{i}'] -= alpha * grad[f'dW{i}']
+        weights[f'b{i}'] -= alpha * grad[f'db{i}']
 
-        D = cache[f'D{i}']
-        dZ_curr = dZ_curr * D
-        dZ_curr /= keep_prob
-
-        dZ = dZ_curr
-
-    for i in range(1, L + 1):
-        weights[f'W{i}'] -= alpha * gradients[f'dW{i}']
-        weights[f'b{i}'] -= alpha * gradients[f'db{i}']
+    return weights
