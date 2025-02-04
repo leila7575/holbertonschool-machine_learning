@@ -9,12 +9,12 @@ def convolve_grayscale_same(images, kernel):
     """Performs a convolution applying a kernel on a grayscale image."""
     m, h, w = images.shape
     kh, kw = kernel.shape
-    ph = (kh - 1)//2
-    pw = (kw - 1)//2
+    ph = kh // 2
+    pw = kw // 2
 
     res = np.zeros((m, h, w))
     image_padded = np.zeros((m, h + 2 * ph, w + 2 * pw))
-    image_padded[:, ph:-ph, pw:-pw] = images
+    image_padded[:, ph:h + ph, pw:w + pw] = images
     for i in range(h):
         for j in range(w):
             res[:, i, j] = np.sum(
