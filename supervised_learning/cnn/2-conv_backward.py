@@ -26,12 +26,12 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
         dA_prev, ((0, 0), (ph, ph), (pw, pw), (0, 0)), 'constant'
     )
     dW = np.zeros(W.shape)
-    db = np.sum(dZ, axis=(0, 1, 2))
+    db = np.sum(dZ, axis=(0, 1, 2), keepdims=True)
 
-    for channel in range(c_new):
+    for sample in range(m):
         for i in range(h_new):
             for j in range(w_new):
-                for sample in range(m):
+                for channel in range(c_new):
                     dA_prev_padded[sample, i*sh:i*sh+kh, j*sw:j*sw+kw, :] += (
                         W[..., channel] * dZ[sample, i, j, channel]
                     )
