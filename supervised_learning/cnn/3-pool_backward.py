@@ -25,9 +25,8 @@ def pool_backward(dA, A_prev, kernel_shape, stride=(1, 1), mode='max'):
                             j*sw:j*sw+kw,
                             channel
                         ]
-                        max_pooling = np.max(
-                            A_prev_sliced == np.max(A_prev_sliced)
-                        )
+                        max_value = np.max(A_prev_sliced)
+                        max_pooling = (A_prev_sliced == max_value)
                         dA_prev[
                             sample,
                             i*sh:i*sh+kh,
