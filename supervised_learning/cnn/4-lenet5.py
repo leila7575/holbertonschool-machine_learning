@@ -8,27 +8,27 @@ tf.disable_v2_behavior()
 def lenet5(x, y):
     """Builds a lenet5 convolutional network"""
     conv1 = tf.layers.Conv2D(
-		filters=6,
-		kernel_size=(5,5),
-		padding='same',
-		activation=tf.nn.relu,
-		kernel_initializer=tf.keras.initializers.VarianceScaling(scale=2.0)
-	)(x)
+        filters=6,
+        kernel_size=(5, 5),
+        padding='same',
+        activation=tf.nn.relu,
+        kernel_initializer=tf.keras.initializers.VarianceScaling(scale=2.0)
+        )(x)
     pool1 = tf.layers.MaxPooling2D(
-		pool_size=(2,2),
-		strides=(2,2)
-	)(conv1)
+        pool_size=(2, 2),
+        strides=(2, 2)
+    )(conv1)
     conv2 = tf.layers.Conv2D(
-		filters=16,
-		kernel_size=(5,5),
-		padding='valid',
-		activation=tf.nn.relu,
-		kernel_initializer=tf.keras.initializers.VarianceScaling(scale=2.0)
-	)(pool1)
+        filters=16,
+        kernel_size=(5, 5),
+        padding='valid',
+        activation=tf.nn.relu,
+        kernel_initializer=tf.keras.initializers.VarianceScaling(scale=2.0)
+    )(pool1)
     pool2 = tf.layers.MaxPooling2D(
-		pool_size=(2,2),
-		strides=(2,2)
-	)(conv2)
+        pool_size=(2, 2),
+        strides=(2, 2)
+    )(conv2)
     flatten = tf.layers.flatten(pool2)
     dense1 = tf.layers.Dense(
         units=120,
@@ -46,9 +46,9 @@ def lenet5(x, y):
         kernel_initializer=tf.keras.initializers.VarianceScaling(scale=2.0)
     )(dense2)
     loss = tf.losses.softmax_cross_entropy(
-    onehot_labels = y,
-    logits = logits
-)
+        onehot_labels=y,
+        logits=logits
+    )
     optimizer = tf.train.AdamOptimizer(learning_rate=0.001).minimize(loss)
     labels = tf.argmax(y, axis=1)
     predictions = tf.argmax(logits, axis=1)
