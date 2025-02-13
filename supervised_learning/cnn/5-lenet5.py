@@ -38,7 +38,7 @@ def lenet5(X):
         ),
         K.layers.Dense(
             10,
-            activation=None,
+            activation='softmax',
             kernel_initializer=K.initializers.HeNormal(seed=None)
         ),
     ])
