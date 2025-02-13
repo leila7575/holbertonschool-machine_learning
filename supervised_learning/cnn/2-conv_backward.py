@@ -9,7 +9,7 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     """Performs backpropagation on convolutional neural networks."""
     m, h_new, w_new, c_new = dZ.shape
     m, h_prev, w_prev, c_prev = A_prev.shape
-    kh, kw, _, _ = W.shape
+    kh, kw, _, c_new = W.shape
     sh, sw = stride
 
     if padding == 'valid':
