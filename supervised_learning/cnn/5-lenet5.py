@@ -12,8 +12,7 @@ def lenet5(X):
         (5, 5),
         activation='relu',
         padding='same',
-        kernel_initializer=K.initializers.HeNormal(seed=None),
-        input_shape=(28, 28, 1)
+        kernel_initializer=K.initializers.HeNormal(seed=0),
     )(X)
     pool1 = K.layers.MaxPooling2D((2, 2), strides=(2, 2))(conv1)
     conv2 = K.layers.Conv2D(
@@ -21,24 +20,24 @@ def lenet5(X):
         (5, 5),
         activation='relu',
         padding='valid',
-        kernel_initializer=K.initializers.HeNormal(seed=None)
+        kernel_initializer=K.initializers.HeNormal(seed=0)
     )(pool1)
     pool2 = K.layers.MaxPooling2D((2, 2), strides=(2, 2))(conv2)
     flatten = K.layers.Flatten()(pool2)
     dense1 = K.layers.Dense(
         120,
         activation='relu',
-        kernel_initializer=K.initializers.HeNormal(seed=None)
+        kernel_initializer=K.initializers.HeNormal(seed=0)
     )(flatten)
     dense2 = K.layers.Dense(
         84,
         activation='relu',
-        kernel_initializer=K.initializers.HeNormal(seed=None)
+        kernel_initializer=K.initializers.HeNormal(seed=0)
     )(dense1)
     dense3 = K.layers.Dense(
         10,
         activation='softmax',
-        kernel_initializer=K.initializers.HeNormal(seed=None)
+        kernel_initializer=K.initializers.HeNormal(seed=0)
     )(dense2)
     model = K.Model(inputs=X, outputs=dense3)
     model.compile(
