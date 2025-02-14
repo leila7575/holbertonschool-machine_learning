@@ -34,7 +34,7 @@ def inception_block(A_prev, filters):
         FPP, (1, 1), padding='same', activation='relu'
     )(max_pooling2d)
 
-    concatenate = K.layers.Concatenate(
+    concatenate = K.layers.Concatenate(axis=-1)(
         [conv2d, conv2d_2, conv2d_4, conv2d_5]
     )
 
