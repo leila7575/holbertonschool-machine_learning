@@ -8,25 +8,19 @@ projection_block = __import__('3-projection_block').projection_block
 
 def resnet50():
     """Builds a ResNet-50 architecture."""
-
     input_1 = K.layers.Input(shape=(224, 224, 3))
 
     conv1 = K.layers.Conv2D(
-        64,
-        (7, 7),
-        padding='same',
-        strides=(2, 2),
+        64, (7, 7), padding='same', strides=(2, 2),
         kernel_initializer=K.initializers.HeNormal(seed=0)
     )(input_1)
 
-    batch_norm1 = K.layers.BatchNormalization(axis=-1)(conv1)
-    re_lu1 = K.layers.ReLU(name="re_lu1")(batch_norm1)  # Correction du nom attendu pour la couche ReLU
+    batch_normalization = K.layers.BatchNormalization(axis=-1)(conv1)
+    activation = K.layers.Activation('relu')(batch_normalization)
 
-    max_pooling = K.layers.MaxPooling2D(
-        (3, 3), strides=(2, 2), padding='same'
-    )(re_lu1)
+    max_pooling2d = K.layers.MaxPooling2D((3, 3), strides=(2, 2), padding='same')(activation)
 
-    conv2_1 = projection_block(max_pooling, filters=(64, 64, 256), s=1)
+    conv2_1 = projection_block(max_pooling2d, filters=(64, 64, 256), s=1)
     conv2_2 = identity_block(conv2_1, filters=(64, 64, 256))
     conv2_3 = identity_block(conv2_2, filters=(64, 64, 256))
 
@@ -46,14 +40,13 @@ def resnet50():
     conv5_2 = identity_block(conv5_1, filters=(512, 512, 2048))
     conv5_3 = identity_block(conv5_2, filters=(512, 512, 2048))
 
-    avg_pool = K.layers.AveragePooling2D(pool_size=(7, 7))(conv5_3)
-    flatten = K.layers.Flatten()(avg_pool)
+    average_pooling2d = K.layers.AveragePooling2D(pool_size=(7, 7), strides=(1, 1), padding='valid')(conv5_3)
 
     dense = K.layers.Dense(
         1000,
         activation='softmax',
         kernel_initializer=K.initializers.HeNormal(seed=0)
-    )(flatten)
+    )(average_pooling2d)
 
     model = K.models.Model(inputs=input_1, outputs=dense)
 
