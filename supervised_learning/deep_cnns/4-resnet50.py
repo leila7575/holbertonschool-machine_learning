@@ -29,10 +29,6 @@ def resnet50():
         (3, 3), strides=(2, 2), padding='same'
     )(activation)
 
-    # Modifier les blocs de convolution pour qu'ils retournent la bonne taille
-    projection_block = __import__('3-projection_block').projection_block
-    identity_block = __import__('2-identity_block').identity_block
-
     conv2_1 = projection_block(max_pooling2d, filters=(64, 64, 256), s=1)
     conv2_2 = identity_block(conv2_1, filters=(64, 64, 256))
     conv2_3 = identity_block(conv2_2, filters=(64, 64, 256))
