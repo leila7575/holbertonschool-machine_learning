@@ -23,7 +23,7 @@ def resnet50():
 
     batch_normalization = K.layers.BatchNormalization(axis=-1)(conv1)
 
-    activation = K.layers.Activation('relu')(batch_normalization)
+    activation = K.layers.ReLU(batch_normalization)
 
     max_pooling2d = K.layers.MaxPooling2D(
         (3, 3), strides=(2, 2), padding='same'
