@@ -29,7 +29,7 @@ def resnet50():
         (3, 3), strides=(2, 2), padding='same'
     )(activation)
 
-    conv2_1 = projection_block(activation, filters=(64, 64, 256))
+    conv2_1 = projection_block(max_pooling2d, filters=(64, 64, 256))
     conv2_2 = identity_block(conv2_1, filters=(64, 64, 256))
     conv2_3 = identity_block(conv2_2, filters=(64, 64, 256))
 
@@ -49,7 +49,7 @@ def resnet50():
     conv5_2 = identity_block(conv5_1, filters=(512, 512, 2048))
     conv5_3 = identity_block(conv5_2, filters=(512, 512, 2048))
 
-    average_pooling2d = K.layers.AveragePooling2D()(conv5_3)
+    average_pooling2d = K.layers.GlobalAveragePooling2D()(conv5_3)
 
     dense = K.layers.Dense(
         1000,
