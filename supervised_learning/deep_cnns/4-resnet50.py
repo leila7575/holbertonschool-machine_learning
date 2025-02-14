@@ -20,7 +20,7 @@ def resnet50():
     )(input_1)
 
     batch_norm1 = K.layers.BatchNormalization(axis=-1)(conv1)
-    re_lu1 = K.layers.ReLU()(batch_norm1)
+    re_lu1 = K.layers.ReLU(name="re_lu")(batch_norm1)  # Ajout du nom attendu
 
     max_pooling = K.layers.MaxPooling2D(
         (3, 3), strides=(2, 2), padding='same'
@@ -47,7 +47,7 @@ def resnet50():
     conv5_3 = identity_block(conv5_2, filters=(512, 512, 2048))
 
     avg_pool = K.layers.AveragePooling2D(pool_size=(7, 7))(conv5_3)
-    flatten = K.layers.Flatten()(avg_pool)  # Correction pour éviter les erreurs de dimension
+    flatten = K.layers.Flatten()(avg_pool)  # Ajout d'un Flatten pour éviter erreurs de dimension
 
     dense = K.layers.Dense(
         1000,
