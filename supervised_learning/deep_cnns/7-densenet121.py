@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Contains the function densenet121."""
 
 from tensorflow import keras as K
