@@ -76,8 +76,6 @@ if __name__ == "__main__":
         callbacks=[early_stopping]
     )
 
-    model.save("cifar10.h5")
-
     test_loss, test_acc = model.evaluate(test_data_iter)
     print(f"Test Accuracy: {test_acc:.4f}")
 
