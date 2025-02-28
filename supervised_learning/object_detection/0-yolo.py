@@ -6,6 +6,7 @@ from tensorflow import keras as K
 
 
 class Yolo:
+    """Class defining yolo v3 algorithm for object detection."""
     def __init__(self, model_path, classes_path, class_t, nms_t, anchors):
         """Class constructor for Yolo v3 algorithm."""
         self.model = K.models.load_model(model_path)
