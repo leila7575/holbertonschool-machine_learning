@@ -177,3 +177,63 @@ class Yolo:
         image_shapes = np.array(image_shapes)
 
         return pimages, image_shapes
+
+    def show_boxes(self, image, boxes, box_classes, box_scores, file_name):
+        """Displays the image with boundary boxes, class names and box scores
+        Saves the image in the directory detection."""
+        for i in range(len(boxes)):
+            x1, y1, x2, y2 = boxes[i]
+            x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+            box_class = int(box_classes[i])
+            class_label = self.class_names[box_class]
+            score = box_scores[i]
+            label = f"{class_label} {score:.2f}"
+            cv2.rectangle(image, (x1, y1), (x2, y2), (255, 0, 0), 2)
+            cv2.putText(
+                image, label, (x1, y1 - 5),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+                (0, 0, 255), 1, cv2.LINE_AA
+            )
+        cv2.imshow(str(file_name), image)
+        key = cv2.waitKey(0)
+        if key == ord('s'):
+            if not os.path.isdir("detections"):
+                os.makedirs("detections")
+            path = os.path.join("detections", os.path.basename(file_name))
+            cv2.imwrite(path, image)
+            cv2.destroyAllWindows()
+        cv2.destroyAllWindows()
+
+    def predict(self, folder_path):
+        """Displays all the images of the folder.
+        Returns the boxes, box_classes, box scores for each image
+        and the list of image_paths."""
+        predictions = []
+        image_paths = []
+
+        images, image_paths = self.load_images(folder_path)
+        pimages, image_shapes = self.preprocess_images(images)
+        outputs = self.model.predict(pimages)
+
+        for i in range(len(images)):
+            boxes, box_confidences, box_class_probs = (
+                self.process_outputs(outputs[i], image_shapes[i])
+            )
+            filtered_boxes, box_classes, box_scores = (
+                self.filter_boxes(boxes, box_confidences, box_class_probs)
+            )
+            box_predictions, predicted_box_classes, predicted_box_scores = (
+                self.non_max_suppression(
+                    filtered_boxes, box_classes, box_scores
+                )
+            )
+
+            self.show_boxes(
+                images[i], box_predictions, predicted_box_classes,
+                predicted_box_scores, os.path.basename(image_paths[i])
+            )
+            predictions.append(
+                (box_predictions, predicted_box_classes, predicted_box_scores)
+            )
+
+        return predictions, image_paths
