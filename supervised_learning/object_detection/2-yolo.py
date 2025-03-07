@@ -60,13 +60,13 @@ class Yolo:
             box_class_probs.append(class_prob)
 
         return boxes, box_confidences, box_class_probs
-    
+
     def filter_boxes(self, boxes, box_confidences, box_class_probs):
-        """Filters bounding boxes based on confidence score and class probabilities."""
+        """Filters bounding boxes by confidence score, class probability"""
         filtered_boxes = []
         box_classes = []
         box_scores = []
-        
+
         for i in range(len(boxes)):
             scores = box_confidences[i] * box_class_probs[i]
             box_class = np.argmax(scores, axis=-1)
@@ -76,9 +76,9 @@ class Yolo:
             filtered_boxes.append(boxes[i][mask])
             box_classes.append(box_class[mask])
             box_scores.append(box_score[mask])
-            
+
         filtered_boxes = np.concatenate(filtered_boxes, axis=0)
         box_classes = np.concatenate(box_classes, axis=0)
         box_scores = np.concatenate(box_scores, axis=0)
-        
+
         return filtered_boxes, box_classes, box_scores
