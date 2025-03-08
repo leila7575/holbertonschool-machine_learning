@@ -166,7 +166,7 @@ class Yolo:
             image_shapes.append((image_height, image_width))
             resized_images = cv2.resize(
                 image,
-                (input_h, input_w),
+                (input_w, input_h),
                 interpolation=cv2.INTER_CUBIC
             )
             norm_image = resized_images / 255.0
