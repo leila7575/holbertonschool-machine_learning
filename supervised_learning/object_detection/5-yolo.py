@@ -159,8 +159,7 @@ class Yolo:
         image_shapes = []
         pimages = []
 
-        input_h = getattr(self, 'input_h', 416)
-        input_w = getattr(self, 'input_w', 416)
+        input_w, input_h = self.model.input.shape[1:3]
 
         for image in images:
             image_height, image_width = image.shape[:2]
