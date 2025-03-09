@@ -30,8 +30,6 @@ class NST:
 
         if beta < 0 or not isinstance(beta, (int, float)):
             raise TypeError("beta must be a non-negative number")
-        
-        tf.enable_eager_execution()
 
         self.style_image = self.scale_image(style_image)
         self.content_image = self.scale_image(content_image)
