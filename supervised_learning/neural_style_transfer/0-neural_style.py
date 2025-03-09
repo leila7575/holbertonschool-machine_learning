@@ -46,14 +46,15 @@ class NST:
             raise TypeError(
                 "image must be a numpy.ndarray with shape (h, w, 3)"
             )
+            
+        if np.max(image) > 1.0:
+            image = image / 255.0
 
         max_dim = 512
         h, w, _ = image.shape
         long = max(h, w)
         scale = max_dim/long
         h_new, w_new = int(h*scale), int(w*scale)
-        if np.max(image) > 1.0:
-            image = image / 255.0
         image = tf.convert_to_tensor(image, dtype=tf.float32)
         resized_image = tf.image.resize(
             image,
