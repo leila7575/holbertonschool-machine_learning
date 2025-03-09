@@ -18,6 +18,11 @@ class Yolo:
         self.nms_t = nms_t
         self.anchors = anchors
 
+    @staticmethod
+    def sigmoid(x):
+        """Sigmoid activation function."""
+        return 1 / (1 + np.exp(-x))
+
     def process_outputs(self, outputs, image_size):
         """ Processes the outputs.
         Returns the boundary boxes, box confidence's
@@ -27,55 +32,50 @@ class Yolo:
         box_confidences = []
         box_class_probs = []
 
-        for i, output in enumerate(outputs):
-            grid_height, grid_width, anchor_boxes, _ = output.shape
-            box_xy, box_wh = output[..., :2], output[..., 2:4]
-            box_confidence, class_prob = output[..., 4:5], output[..., 5:]
-
-            box_xy = 1 / (1 + np.exp(-box_xy))
-            box_confidence = 1 / (1 + np.exp(-box_confidence))
-            class_prob = 1 / (1 + np.exp(-class_prob))
-
-            grid_x, grid_y = np.meshgrid(
-                np.arange(grid_width), np.arange(grid_height)
-            )
-            grid = np.stack(
-                (grid_x, grid_y), axis=-1
-            ).reshape((grid_height, grid_width, 1, 2))
-
-            box_xy = (box_xy + grid) / [grid_width, grid_height]
-            anchors = self.anchors[i].reshape((1, 1, anchor_boxes, 2))
-            box_wh = np.exp(box_wh) * anchors
-            box_x1y1 = box_xy - (box_wh / 2)
-            box_x2y2 = box_xy + (box_wh / 2)
-            box = np.concatenate([box_x1y1, box_x2y2], axis=-1)
-
-            box[..., 0] *= image_width
-            box[..., 1] *= image_height
-            box[..., 2] *= image_width
-            box[..., 3] *= image_height
-
-            boxes.append(box)
+        for output in outputs:
+            boxes.append(output[..., 0:4])
+            box_confidence = self.sigmoid(output[..., 4, np.newaxis])
+            class_probs = self.sigmoid(output[..., 5:])
             box_confidences.append(box_confidence)
-            box_class_probs.append(class_prob)
+            box_class_probs.append(class_probs)
 
+        for i, box in enumerate(boxes):
+            grid_height, grid_width, anchor_boxes, _ = box.shape
+            grid_y = np.indices((grid_height, grid_width, anchor_boxes))[0]
+            grid_x = np.indices((grid_height, grid_width, anchor_boxes))[1]
+
+            bx = (self.sigmoid(box[..., 0]) + grid_x) / grid_width
+            by = (self.sigmoid(box[..., 1]) + grid_y) / grid_height
+            bw = (np.exp(box[..., 2]) * self.anchors[i, :, 0]) / \
+                self.model.input.shape[1]
+            bh = (np.exp(box[..., 3]) * self.anchors[i, :, 1]) / \
+                self.model.input.shape[2]
+
+            box[..., 0] = (bx - bw / 2) * image_width
+            box[..., 1] = (by - bh / 2) * image_height
+            box[..., 2] = (bx + bw / 2) * image_width
+            box[..., 3] = (by + bh / 2) * image_height
         return boxes, box_confidences, box_class_probs
 
     def filter_boxes(self, boxes, box_confidences, box_class_probs):
-        """Filters bounding boxes by confidence score, class probability"""
+        """Filters bounding boxes by confidence score, class probabilities"""
         filtered_boxes = []
         box_classes = []
         box_scores = []
 
         for i in range(len(boxes)):
-            scores = box_confidences[i] * box_class_probs[i]
+            box = boxes[i]
+            confidence = box_confidences[i]
+            class_prob = box_class_probs[i]
+
+            scores = confidence * class_prob
             box_class = np.argmax(scores, axis=-1)
             box_score = np.max(scores, axis=-1)
             mask = box_score >= self.class_t
 
-            filtered_boxes.append(boxes[i][mask])
-            box_classes.append(box_class[mask])
-            box_scores.append(box_score[mask])
+            filtered_boxes.append(box.reshape(-1, 4)[mask.flatten()])
+            box_classes.append(box_class.flatten()[mask.flatten()])
+            box_scores.append(box_score.flatten()[mask.flatten()])
 
         filtered_boxes = np.concatenate(filtered_boxes, axis=0)
         box_classes = np.concatenate(box_classes, axis=0)
