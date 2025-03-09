@@ -76,5 +76,5 @@ class NST:
         ]
         content_outputs = [base_model.get_layer(self.content_layer).output]
         model_output = style_outputs + content_outputs
-        model = tf.keras.models.Model(base_model.input, model_output)
+        model = tf.keras.models.Model(inputs=base_model.input, outputs=model_output)
         return model
