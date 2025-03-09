@@ -73,15 +73,11 @@ class NST:
             weights='imagenet', include_top=False
         )
         base_model.trainable = False
-        for layer in VGG19_model.layers:
-            if layer.name in self.style_layers:
-                style_outputs.append(layer.output)
-            if layer.name == self.content_layer:
-                content_output = layer.output
+        style_outputs = [
+            base_model.get_layer(name).output for name in self.style_layers
+        ]
+        content_outputs = [base_model.get_layer(self.content_layer).output]
+        model_output = style_outputs + content_outputs
+        model = tf.keras.models.Model(base_model.input, model_output)
+        return model
 
-            layer.trainable = False
-
-        outputs = style_outputs + [content_output]
-
-        model = tf.keras.models.Model(VGG19_model.input, outputs)
-        self.model = model
