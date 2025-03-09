@@ -15,14 +15,12 @@ class NST:
 
     def __init__(self, style_image, content_image, alpha=1e4, beta=1):
         """class constructor for NST neural style transfer."""
-        if not isinstance(style_image, np.ndarray):
+        if (not isinstance(style_image, np.ndarray) or
+                len(style_image.shape) != 3):
             raise TypeError("style_image must be a numpy.ndarray")
-        
-        if style_image.ndim != 3 or style_image.shape[2] != 3:
-            raise TypeError("style_image must have shape (h, w, 3)")
-        
+
         if (not isinstance(content_image, np.ndarray) or
-                content_image.ndim != 3 or content_image.shape[2] != 3):
+                len(content_image_image.shape) != 3):
             raise TypeError(
                 "content_image must be a numpy.ndarray with shape (h, w, 3)"
             )
@@ -32,6 +30,8 @@ class NST:
 
         if beta < 0 or not isinstance(beta, (int, float)):
             raise TypeError("beta must be a non-negative number")
+        
+        tf.enable_eager_execution()
 
         self.style_image = self.scale_image(style_image)
         self.content_image = self.scale_image(content_image)
@@ -46,11 +46,11 @@ class NST:
             raise TypeError(
                 "image must be a numpy.ndarray with shape (h, w, 3)"
             )
-            
+
         image = np.asarray(image)
         image = image.astype('float32')
         image /= 255.0
-        
+
         max_dim = 512
         h, w, _ = image.shape
         long = max(h, w)
