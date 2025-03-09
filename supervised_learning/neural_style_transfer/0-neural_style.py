@@ -15,12 +15,12 @@ class NST:
 
     def __init__(self, style_image, content_image, alpha=1e4, beta=1):
         """class constructor for NST neural style transfer."""
-        if (not isinstance(style_image, np.ndarray) or
-                style_image.ndim != 3 or style_image.shape[2] != 3):
-            raise TypeError(
-                "style_image must be a numpy.ndarray with shape (h, w, 3)"
-            )
-
+        if not isinstance(style_image, np.ndarray):
+            raise TypeError("style_image must be a numpy.ndarray")
+        
+        if style_image.ndim != 3 or style_image.shape[2] != 3:
+            raise TypeError("style_image must have shape (h, w, 3)")
+        
         if (not isinstance(content_image, np.ndarray) or
                 content_image.ndim != 3 or content_image.shape[2] != 3):
             raise TypeError(
