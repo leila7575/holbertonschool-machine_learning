@@ -47,9 +47,10 @@ class NST:
                 "image must be a numpy.ndarray with shape (h, w, 3)"
             )
             
-        if np.max(image) > 1.0:
-            image = image / 255.0
-
+        image = np.asarray(image)
+        image = image.astype('float32')
+        image /= 255.0
+        
         max_dim = 512
         h, w, _ = image.shape
         long = max(h, w)
