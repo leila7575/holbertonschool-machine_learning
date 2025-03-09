@@ -32,6 +32,8 @@ class NST:
 
         if beta < 0 or not isinstance(beta, (int, float)):
             raise TypeError("beta must be a non-negative number")
+        
+        tf.compat.v1.enable_eager_execution()
 
         self.style_image = self.scale_image(style_image)
         self.content_image = self.scale_image(content_image)
@@ -71,10 +73,15 @@ class NST:
             weights='imagenet', include_top=False
         )
         base_model.trainable = False
-        style_outputs = [
-            base_model.get_layer(name).output for name in self.style_layers
-        ]
-        content_outputs = [base_model.get_layer(self.content_layer).output]
-        model_output = style_outputs + content_outputs
-        model = tf.keras.models.Model(inputs=base_model.input, outputs=model_output)
-        return model
+        for layer in VGG19_model.layers:
+            if layer.name in self.style_layers:
+                style_outputs.append(layer.output)
+            if layer.name == self.content_layer:
+                content_output = layer.output
+
+            layer.trainable = False
+
+        outputs = style_outputs + [content_output]
+
+        model = tf.keras.models.Model(VGG19_model.input, outputs)
+        self.model = model
