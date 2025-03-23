@@ -15,8 +15,8 @@ def definiteness(matrix):
     if (not isinstance(matrix, np.ndarray) or matrix.ndim != 2
             or matrix.shape[0] != matrix.shape[1]):
         return None
-    
-    if not (matrix==matrix.T).all():
+
+    if not (matrix == matrix.T).all():
         return None
 
     eigenvalues, eigenvector = np.linalg.eig(matrix)
