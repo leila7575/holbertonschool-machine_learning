@@ -30,7 +30,7 @@ def likelihood(x, n, P):
         raise TypeError("P must be a 1D numpy.ndarray")
 
     if any(value < 0 for value in P) or any(value > 1 for value in P):
-        raise ValueError("All values in P must be in the range[0, 1]")
+        raise ValueError("All values in P must be in the range [0, 1]")
 
     likelihood = []
     binomial_coefficient = factorial(n) / (factorial(x) * factorial(n - x))
