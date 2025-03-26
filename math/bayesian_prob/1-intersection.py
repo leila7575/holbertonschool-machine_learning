@@ -47,6 +47,6 @@ def intersection(x, n, P, Pr):
     for i in range(len(P)):
         PMF = binomial_coefficient * (P[i] ** x) * ((1 - P[i]) ** (n - x))
         likelihood.append(PMF)
-    intersection.append(np.multiply(likelihood, Pr))
+        intersection.append(likelihood[i] * Pr[i])
 
     return np.array(intersection)
