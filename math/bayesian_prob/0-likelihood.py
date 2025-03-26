@@ -37,4 +37,4 @@ def likelihood(x, n, P):
     for i in range(len(P)):
         PMF = binomial_coefficient * (P[i] ** x) * ((1 - P[i]) ** (n - x))
         likelihood.append(PMF)
-    return likelihood
+    return np.array(likelihood)
