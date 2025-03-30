@@ -6,13 +6,14 @@ import numpy as np
 
 
 def pca(X, var=0.95):
-    """Performs PCA on a dataset"""
-    covariance_matrix = np.cov(X, rowvar=False)
-    eigenvalues, eigenvectors = np.linalg.eigh(covariance_matrix)
-    sorted_eigenvalues = eigenvalues[np.argsort(eigenvalues)[::-1]]
-    sorted_eigenvectors = eigenvectors[:, np.argsort(eigenvalues)[::-1]]
-    total_variance = np.sum(sorted_eigenvalues)
-    cum_variance = np.cumsum(sorted_eigenvalues) / total_variance
-    number_dimensions = np.argmax(cum_variance >= var) + 1
-    W = sorted_eigenvectors[:, :number_dimensions]
+    """Performs PCA on a dataset with SVD"""
+    left_sing_vect, sing_values, right_sing_vect = np.linalg.svd(X)
+
+    variance_ratios = sing_values / np.sum(sing_values)
+    cum_variance = np.cumsum(variance_ratios)
+
+    number_dimensions = np.searchsorted(cum_variance, var) + 1
+
+    W = right_sing_vect.T[:, :number_dimensions]
+
     return W
