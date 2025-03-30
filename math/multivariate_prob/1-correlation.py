@@ -5,6 +5,7 @@ import numpy as np
 
 
 def correlation(C):
+    """computes correlation matrix from covariance matrix"""
     if not isinstance(C, np.ndarray):
         raise TypeError("C must be a numpy.ndarray")
 
