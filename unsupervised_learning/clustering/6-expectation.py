@@ -20,7 +20,7 @@ def expectation(X, pi, m, S):
         total_prob = np.sum(g, axis=0)
 
         g /= total_prob
-        l = np.sum(np.log(total_prob))
-        return g, l
+        log_likelihood = np.sum(np.log(total_prob))
+        return g, log_likelihood
     except Exception:
         return None, None
