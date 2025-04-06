@@ -14,6 +14,8 @@ def expectation(X, pi, m, S):
         g = np.zeros((k, n))
         for i in range(k):
             P = pdf(X, m[i], S[i])
+            if np.any(np.isnan(P)):
+                return None, None
             g[i] = P * pi[i]
         total_prob = np.sum(g, axis=0)
 
