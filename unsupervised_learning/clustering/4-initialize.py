@@ -11,8 +11,6 @@ def initialize(X, k):
     n, d = X.shape
     pi = np.ones(k) / k
     m, _ = kmeans(X, k)
-    s = np.zeros((k, d, d))
-    for i in range(k):
-        for j in range(d):
-            s[i, j, j] = 1
+    s = np.eye(d)
+    s = np.tile(s, (k, 1, 1))
     return pi, m, s
