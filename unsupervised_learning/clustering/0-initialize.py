@@ -8,7 +8,7 @@ import numpy as np
 
 def initialize(X, k):
     """Initializes cluster centroids for k-means"""
-    
+
     try:
         n, d = X.shape
         if not isinstance(k, int) or k <= 0 or k > n:
