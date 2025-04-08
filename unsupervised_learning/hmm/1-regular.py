@@ -19,6 +19,7 @@ def regular(P):
             eigenvectors_indexes = np.isclose(eigenvalues, 1)
             selected_eigenvect = eigenvectors[:, eigenvectors_indexes]
             selected_eigenvect = selected_eigenvect[:, 0]
+            selected_eigenvect = selected_eigenvect.reshape(1, -1)
             stationary_matrix = selected_eigenvect / np.sum(selected_eigenvect)
             return stationary_matrix
         return None
