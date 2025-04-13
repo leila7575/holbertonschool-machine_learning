@@ -13,7 +13,7 @@ def viterbi(Observation, Emission, Transition, Initial):
         N = Initial.shape[0]
 
         V = np.zeros((N, T))
-        best_states = np.zeros((N, T))
+        best_states = np.zeros((N, T), dtype=int)
         V[:, 0] = Emission[:, Observation[0]] * Initial[:, 0]
         for t in range(1, T):
             for i in range(N):
@@ -23,13 +23,13 @@ def viterbi(Observation, Emission, Transition, Initial):
                 best_states[i, t] = best_state
 
         end_state = np.argmax(V[:, T - 1])
+        P = V[end_state, T - 1]
         path = np.zeros(T, dtype=int)
         path[T - 1] = end_state
-        P = V[end_state, T - 1]
 
         for t in range(T - 2, -1, -1):
             path[t] = best_states[path[t + 1], t + 1]
 
-        return path, P
+        return path.tolist(), P
     except Exception:
         return None, None
