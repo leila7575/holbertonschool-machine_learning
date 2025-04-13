@@ -50,7 +50,9 @@ def baum_welch(Observations, Transition, Emission, Initial, iterations=1000):
             for t in range(T - 1):
                 denominator = np.sum(
                     alpha[:, t] *
-                    (Transition @ (Emission[:, Observations[t + 1]] * beta[:, t + 1]))
+                    (Transition @ (
+                        Emission[:, Observations[t + 1]] * beta[:, t + 1]
+                    ))
                 )
 
                 for i in range(M):
@@ -68,7 +70,9 @@ def baum_welch(Observations, Transition, Emission, Initial, iterations=1000):
 
             Initial = gamma[:, [0]]
 
-            Transition = np.sum(xi, axis=2) / np.sum(gamma[:, :-1], axis=1, keepdims=True)
+            Transition = np.sum(xi, axis=2) / np.sum(
+                gamma[:, :-1], axis=1, keepdims=True
+            )
 
             for k in range(N):
                 mask = Observations == k
