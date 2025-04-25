@@ -8,10 +8,14 @@ import tensorflow.keras as keras
 def autoencoder(input_dims, hidden_layers, latent_dims):
     """Creates an autoencoder"""
     input = keras.layers.Input(shape=(input_dims,))
-    encoder_layer = keras.layers.Dense(hidden_layers[0], activation='relu')(input)
+    encoder_layer = keras.layers.Dense(
+        hidden_layers[0], activation='relu'
+    )(input)
     for i in hidden_layers[1:]:
         encoder_layer = keras.layers.Dense(i, activation='relu')(encoder_layer)
-    encoder_layer = keras.layers.Dense(latent_dims, activation='relu')(encoder_layer)
+    encoder_layer = keras.layers.Dense(
+        latent_dims, activation='relu'
+    )(encoder_layer)
 
     decoder_input = keras.layers.Input(shape=latent_dims,)
     decoder_layer = keras.layers.Dense(
