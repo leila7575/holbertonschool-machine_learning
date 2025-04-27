@@ -6,6 +6,7 @@
 
 def matrix_shape(matrix):
     """Calculates the shape of a matrix."""
-    if isinstance(matrix, list):
-        return [len(matrix)] + matrix_shape(matrix[0])
-    return []
+    if not isinstance( matrix, list):
+        return []
+    return [len(matrix)] + [matrix_shape(matrix[0])]
+    

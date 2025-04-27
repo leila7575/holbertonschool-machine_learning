@@ -56,7 +56,7 @@ class Node:
         def right_child_add_prefix(text):
             """Adds prefix +---> or  | to right branch lines."""
             lines = text.split("\n")
-            new_text = "    +---> " + lines[0] + "\n"
+            new_text = "    +--" + lines[0] + "\n"
             for x in lines[1:]:
                 if x.strip():
                     new_text += "           " + x + "\n"

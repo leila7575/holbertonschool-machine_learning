@@ -65,6 +65,7 @@ class Leaf(Node):
 
 class Decision_Tree():
     """This class defines a decision tree. """
+    
     def __init__(self, max_depth=10, min_pop=1, seed=0,
                  split_criterion="random", root=None):
         """Initialization of decision tree instance."""
@@ -87,3 +88,7 @@ class Decision_Tree():
     def count_nodes(self, only_leaves=False):
         """Count the number of nodes of the decision tree."""
         return self.root.count_nodes_below(only_leaves=only_leaves)
+    
+    def __str__(self):
+        """Returns string representation of the decision tree"""
+        return self.root.__str__()

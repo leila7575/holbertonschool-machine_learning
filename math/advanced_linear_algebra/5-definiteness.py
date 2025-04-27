@@ -6,7 +6,6 @@ negative definite or negative semi-definite."""
 
 import numpy as np
 
-
 def definiteness(matrix):
     """Calculates the definiteness of a matrix."""
     if not isinstance(matrix, np.ndarray):

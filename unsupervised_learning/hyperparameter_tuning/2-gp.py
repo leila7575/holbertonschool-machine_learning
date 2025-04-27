@@ -31,8 +31,11 @@ class GaussianProcess:
         k = self.kernel(self.X, self.X)
         k_s = self.kernel(X_s, self.X)
         k_ss = self.kernel(X_s, X_s)
-        mu = k_s.dot(np.linalg.inv(k)).dot(self.Y).flatten()
-        sigma = k_ss - k_s.dot(np.linalg.inv(k)).dot(k_s.T)
+        jitter = 1e-8 * np.eye(k.shape[0])
+        k += jitter
+        k_inv = np.linalg.inv(k)
+        mu = k_s.dot(k_inv).dot(self.Y).flatten()
+        sigma = k_ss - k_s.dot(k_inv).dot(k_s.T)
         sigma = np.diag(sigma)
         return mu, sigma
 

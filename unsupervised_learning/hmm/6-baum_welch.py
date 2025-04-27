@@ -65,9 +65,8 @@ def baum_welch(Observations, Transition, Emission, Initial, iterations=1000):
                     xi[i, :, t] = numerator / denominator
 
             gamma = np.sum(xi, axis=1)
-            prod = alpha[:, T - 1] * beta[:, T - 1]
-            gamma = np.hstack((gamma, (prod / np.sum(prod))[:, None]))
-
+            final_gamma = (alpha[:, T - 1] * beta[:, T - 1]) / (np.sum(alpha[:, T - 1] * beta[:, T - 1]) + 1e-8)
+            gamma = np.hstack((gamma, final_gamma[:, None]))
             Initial = gamma[:, [0]]
 
             Transition = np.sum(xi, axis=2) / np.sum(

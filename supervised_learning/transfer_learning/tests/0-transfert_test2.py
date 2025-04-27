@@ -36,8 +36,6 @@ if __name__ == "__main__":
 	model.compile(optimizer=K.optimizers.Adam(learning_rate=1e-4), loss='categorical_crossentropy', metrics=['accuracy'])
 	history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), epochs=15, batch_size=200, verbose=1)
 
-	model.save("cifar10.h5")
-
 	test_loss, test_acc = model.evaluate(X_test, Y_test)
 	print(f"Test Accuracy: {test_acc:.4f}")
 

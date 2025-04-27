@@ -12,6 +12,7 @@ create_placeholders = __import__('0-create_placeholders').create_placeholders
 create_train_op = __import__('5-create_train_op').create_train_op
 forward_prop = __import__('2-forward_prop').forward_prop
 
+
 def evaluate(X, Y, save_path):
     """Evaluates the output of neural network."""
     x, y = create_placeholders(X.shape[1], Y.shape[1])

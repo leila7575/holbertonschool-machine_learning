@@ -21,7 +21,7 @@ def densenet121(growth_rate=32, compression=1.0):
 
     max_pooling2d = K.layers.MaxPooling2D(
         (3, 3),
-        strides=(2, 2),
+        strides=(2, 
         padding='same'
     )(conv7x7)
 

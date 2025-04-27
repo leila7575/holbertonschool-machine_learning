@@ -50,35 +50,34 @@ class DeepNeuralNetwork:
 
     def forward_prop(self, X):
         """Calculates forward propagation of the neural network."""
-        self.__cache['A0'] = X
-        for i in range(1, self.L + 1):
-            Z = np.dot(
-                self.__weights[f'W{i}'], self.__cache[f'A{i - 1}']
-                ) + self.__weights[f'b{i}']
-            
-            if i == self.L:
-                # Softmax activation for the output layer (multiclass classification)
-                A = np.exp(Z) / np.sum(np.exp(Z), axis=0, keepdims=True)
-            else:
-                # Sigmoid activation for hidden layers
-                A = 1/(1 + np.exp(-Z))
-            self.__cache[f'A{i}'] = A
-            self.__cache[f'Z{i}'] = Z
-        return A, self.__cache
+        Z1 = np.dot(self.W1, X) + self.b1
+        A1 = 1 / (1 + np.exp(-Z1))  # ReLU activation for hidden layer 1
+
+        Z2 = np.dot(self.W2, A1) + self.b2
+        A2 = 1 / (1 + np.exp(-Z2))  # ReLU activation for hidden layer 2
+
+        Z3 = np.dot(self.W3, A2) + self.b3
+        A3 = np.exp(Z3) / np.sum(np.exp(Z3), axis=0, keepdims=True)  # Softmax activation for multiclass output
+
+        cache = {'A1': A1, 'A2': A2, 'A3': A3, 'Z1': Z1, 'Z2': Z2, 'Z3': Z3}
+        
+        return A3, cache
 
     def cost(self, Y, A):
         """Calculates cost of the model based on cross-entropy for multiclass classification"""
         m = Y.shape[1]
-        A = np.clip(A, 1e-15, 1 - 1e-15)  # Prevent division by zero in log
-        cost = -np.sum(Y * np.log(A)) / m
+        cost = -np.sum(np.multiply(Y, np.log(A3))) / m  # Cross-entropy cost
         return cost
 
     def evaluate(self, X, Y):
         """Evaluates the neural network's prediction.
         Returns the prediction and the cost."""
-        A, _ = self.forward_prop(X)
-        prediction = np.argmax(A, axis=0)  # For multiclass classification, choose the max probability class
-        cost = self.cost(Y, A)
+        A3, _ = self.forward_prop(X)
+        cost = self.cost(Y, A3)
+        
+        # Get the class with the highest probability
+        prediction = np.argmax(A3, axis=0)
+        
         return prediction, cost
 
     def gradient_descent(self, Y, cache, alpha=0.05):
