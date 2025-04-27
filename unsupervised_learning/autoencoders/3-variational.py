@@ -4,10 +4,13 @@
 
 import tensorflow.keras as keras
 
+
 def sampling(inputs):
+    """Sampling function, samples z using z_mean and z_log_var"""
     z_mean, z_log_var = inputs
     epsilon = keras.backend.random_normal(shape=keras.backend.shape(z_mean))
     return z_mean + keras.backend.exp(0.5 * z_log_var) * epsilon
+
 
 def autoencoder(input_dims, hidden_layers, latent_dims):
     """Creates a variational autoencoder"""
@@ -15,7 +18,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     encoder_layer = input
     for i in hidden_layers:
         encoder_layer = keras.layers.Dense(i, activation='relu')(encoder_layer)
-    
+
     z_mean = keras.layers.Dense(latent_dims, activation=None)(encoder_layer)
     z_log_var = keras.layers.Dense(latent_dims, activation=None)(encoder_layer)
     z = keras.layers.Lambda(sampling)([z_mean, z_log_var])
