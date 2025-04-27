@@ -22,7 +22,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     z_mean = keras.layers.Dense(latent_dims, activation=None)(encoder_layer)
     z_log_var = keras.layers.Dense(latent_dims, activation=None)(encoder_layer)
     z = keras.layers.Lambda(sampling)([z_mean, z_log_var])
-    encoder = keras.models.Model(input, [z_mean, z_log_var, z])
+    encoder = keras.models.Model(input, [z, z_mean, z_log_var])
 
     decoder_input = keras.layers.Input(shape=(latent_dims,))
     decoder_layer = decoder_input
