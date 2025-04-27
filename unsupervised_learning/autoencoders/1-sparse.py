@@ -20,7 +20,8 @@ def autoencoder(input_dims, hidden_layers, latent_dims, lambtha):
     decoder = keras.layers.Dense(
         hidden_layers[-1], activation='relu'
     )(decoder_input)
-    for i in (reversed(hidden_layers[:-1])):
+    
+    for i in (reversed(hidden_layers)):
         decoder = keras.layers.Dense(i, activation='relu')(decoder)
     decoder_output = keras.layers.Dense(
         input_dims, activation='sigmoid'
