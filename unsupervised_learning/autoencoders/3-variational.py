@@ -5,11 +5,16 @@
 import tensorflow.keras as keras
 
 
-def sampling(inputs):
+def sampling(args):
     """Sampling function, samples z using z_mean and z_log_var"""
-    z_mean, z_log_var = inputs
+    z_mean, z_log_var = args
     epsilon = keras.backend.random_normal(shape=keras.backend.shape(z_mean))
-    return z_mean + keras.backend.exp(0.5 * z_log_var) * epsilon
+    z = z_mean + keras.backend.exp(0.5 * z_log_var) * epsilon
+    # KL divergence loss
+    kl_loss = -0.5 * keras.backend.sum(1 + z_log_var - keras.backend.square(z_mean) - keras.backend.exp(z_log_var), axis=1)
+    # Ajoute la loss à la couche
+    keras.backend.add_loss(keras.backend.mean(kl_loss))
+    return z
 
 
 def autoencoder(input_dims, hidden_layers, latent_dims):
