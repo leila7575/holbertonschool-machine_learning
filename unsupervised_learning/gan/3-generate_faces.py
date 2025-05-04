@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""contains convolutional_GenDiscr for building generator and discriminator networks
-for convolutional GAN model"""
+"""contains convolutional_GenDiscr for building generator
+and discriminator networks for convolutional GAN model"""
 
 
 import tensorflow as tf
@@ -9,13 +9,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def convolutional_GenDiscr() :
+def convolutional_GenDiscr():
     """Buils convolutional GAN generator and discriminator network"""
 
-
-    def get_generator() :
+    def get_generator():
         """Builds generator network."""
-        #generator model
+        # generator model
         input = keras.layers.Input(shape=(16,))
         dense_layer = keras.layers.Dense(2048, activation='tanh')(input)
         reshape_layer = keras.layers.Reshape((2, 2, 512))(dense_layer)
@@ -26,13 +25,13 @@ def convolutional_GenDiscr() :
             x = keras.layers.Conv2D(i, (3, 3), padding='same')(x)
             x = keras.layers.BatchNormalization()(x)
             x = keras.layers.Activation('tanh')(x)
-        
+
         generator = keras.models.Model(input, x, name='generator')
         return generator
 
     def get_discriminator():
         """Builds discriminator network"""
-        #discriminator model
+        # discriminator model
         input = keras.layers.Input(shape=(16, 16, 1))
         x = input
         filters = [32, 64, 128, 256]
@@ -42,8 +41,8 @@ def convolutional_GenDiscr() :
             x = keras.layers.Activation('tanh')(x)
         flattened = keras.layers.Flatten()(x)
         output = keras.layers.Dense(1, activation='tanh')(flattened)
-        
+
         discriminator = keras.models.Model(input, output, name='discriminator')
         return discriminator
 
-    return get_generator() , get_discriminator()
+    return get_generator(), get_discriminator()
