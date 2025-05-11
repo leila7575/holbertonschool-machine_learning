@@ -30,7 +30,12 @@ class BidirectionalCell:
         concatenated_h = np.concatenate((h_next, x_t), axis=1)
         h_pev = np.tanh(np.dot(concatenated_h, self.Whb) + self.bhb)
         return h_pev
-    
+
+    def softmax(self, x):
+        """Applies softmax function"""
+        exp_x = np.exp(x - np.max(x, axis=-1, keepdims=True))
+        return exp_x / np.sum(exp_x, axis=-1, keepdims=True)
+
     def output(self, H):
         """Calculates outputs"""
         x = np.dot(H, self.Wy) + self.by
