@@ -3,7 +3,6 @@
 
 
 import numpy as np
-rnn_cell = __import__('0-rnn_cell').RNNCell
 
 
 def rnn(rnn_cell, X, h_0):
