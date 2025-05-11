@@ -22,19 +22,21 @@ class GRUCell:
         self.by = np.zeros(shape=(1, o))
 
     def sigmoid(self, x):
+        """Applies sigmoid function"""
         return 1 / (1 + np.exp(-x))
-    
+
     def softmax(self, x):
+        """Applies softmax function"""
         exp_x = np.exp(x - np.max(x, axis=1, keepdims=True))
         return exp_x / np.sum(exp_x, axis=1, keepdims=True)
 
     def forward(self, h_prev, x_t):
         """Performs forward propagation for one step"""
         concatenated_h = np.concatenate((h_prev, x_t), axis=1)
-        zt = self.sigmoid(np.dot(concatenated_h, self.Wz) + self.bz)
-        rt = self.sigmoid(np.dot(concatenated_h, self.Wr) + self.br)
-        concatenated_rt = np.concatenate((x_t, (rt * h_prev)), axis=1)
-        h_bar = np.tanh(np.dot(concatenated_rt, self.Wh) + self.bh)
-        h_next = (np.ones_like(zt) - zt) * h_bar + zt * h_prev
+        zt = self.sigmoid(np.matmul(concatenated_h, self.Wz) + self.bz)
+        rt = self.sigmoid(np.matmul(concatenated_h, self.Wr) + self.br)
+        concatenated_rt = np.concatenate(((rt * h_prev), x_t), axis=1)
+        h_bar = np.tanh(np.matmul(concatenated_rt, self.Wh) + self.bh)
+        h_next = (1 - zt) * h_prev + zt * h_bar
         y = self.softmax(np.dot(h_next, self.Wy) + self.by)
         return h_next, y
