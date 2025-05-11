@@ -13,9 +13,9 @@ class RNNCell:
         self.h = h
         self.o = o
         self.Wh = np.random.normal(size=(h + i, h))
-        self.bh = np.zeros(shape=(h, 1))
-        self.Wy = np.random.normal(size=(o, h))
-        self.by = np.zeros(shape=(o, 1))
+        self.bh = np.zeros(shape=(1, h))
+        self.Wy = np.random.normal(size=(h, o))
+        self.by = np.zeros(shape=(1, o))
 
     def softmax(self, x):
         """Applies softmax function"""
@@ -26,6 +26,6 @@ class RNNCell:
         """Performs forward propagation for one step"""
         concatenated_h = np.concatenate((h_prev, x_t), axis=1)
         h_next = np.tanh(np.dot(concatenated_h, self.Wh) + self.bh)
-        x = np.dot(h_next, self.Wy.T) + self.by
+        x = np.dot(h_next, self.Wy) + self.by
         y = self.softmax(x)
         return h_next, y
