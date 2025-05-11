@@ -20,7 +20,7 @@ class RNNCell:
     def softmax(self, x):
         """Applies softmax function"""
         exp_x = np.exp(x - np.max(x))
-        return exp_x / np.sum(exp_x)
+        return exp_x / np.sum(exp_x, axis=1, keepdims=True)
 
     def forward(self, h_prev, x_t):
         """Performs forward propagation for one step"""
