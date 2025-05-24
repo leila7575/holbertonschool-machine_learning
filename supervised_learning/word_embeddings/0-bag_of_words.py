@@ -35,4 +35,4 @@ def bag_of_words(sentences, vocab=None):
                     embeddings_row[i[0]] += 1
         embeddings.append(embeddings_row)
 
-    return embeddings, features
+    return np.array(embeddings), features
