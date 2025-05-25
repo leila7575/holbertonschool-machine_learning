@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""word2vec_model for building and training fastText model"""
+"""building and training fastText model"""
 
 
 import gensim
@@ -14,7 +14,7 @@ def fasttext_model(
         sg = 0
     else:
         sg = 1
-    model = gensem.models.FastText(
+    model = gensim.models.FastText(
         sentences=sentences,
         vector_size=vector_size,
         window=window,
