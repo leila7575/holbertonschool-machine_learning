@@ -34,7 +34,7 @@ def tf_idf(sentences, vocab=None):
 
     corpus_len = len(sentences)
     count_doc_with_word = np.array(count_doc_with_word)
-    idf = np.log(corpus_len / (count_doc_with_word + 1))
+    idf = np.log((1 + corpus_len) / (1 + count_doc_with_word)) + 1
 
     embeddings = []
     for tokens in preprocessed_sentences:
