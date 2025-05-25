@@ -2,7 +2,7 @@
 """word2vec_model for building and training fastText model"""
 
 
-from gensim.models import FastText
+import gensim
 
 
 def fasttext_model(
@@ -14,7 +14,7 @@ def fasttext_model(
         sg = 0
     else:
         sg = 1
-    model = FastText(
+    model = gensem.models.FastText(
         sentences=sentences,
         vector_size=vector_size,
         window=window,
