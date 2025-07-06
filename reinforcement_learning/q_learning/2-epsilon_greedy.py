@@ -2,7 +2,6 @@
 """Chooses next action based on epsilon-greedy policy."""
 
 
-import gymnasium as gym
 import numpy as np
 
 

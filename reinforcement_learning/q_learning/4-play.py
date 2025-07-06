@@ -3,8 +3,6 @@
 
 
 import numpy as np
-import gymnasium as gym
-epsilon_greedy = __import__('2-epsilon_greedy').epsilon_greedy
 
 
 def play(env, Q, max_steps=100):
