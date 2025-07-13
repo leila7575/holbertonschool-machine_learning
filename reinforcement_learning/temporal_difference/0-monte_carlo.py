@@ -2,7 +2,7 @@
 """First-visit Monte Carlo algorithm"""
 
 
-import gymnasium as gym
+import numpy as np
 
 
 def monte_carlo(
