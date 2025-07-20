@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-""""""
+"""
+Contains function policy and policy_gradient
+Computes Monte Carlo policy gradient
+"""
 
 
 import numpy as np
