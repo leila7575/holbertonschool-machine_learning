@@ -2,9 +2,6 @@
 """slice extracts columns and rows from Dataframe"""
 
 
-import pandas as pd
-
-
 def slice(df):
     """Extracts columns and rows from Dataframe"""
     rows_index = []

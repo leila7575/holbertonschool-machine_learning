@@ -2,9 +2,6 @@
 """high sorts Dataframe data by High price in descending order"""
 
 
-import pandas as pd
-
-
 def high(df):
     """sorts Dataframe data by High price in descending order"""
     sorted_df = df.sort_values(['High'], ascending=False)

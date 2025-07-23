@@ -2,9 +2,6 @@
 """flip_switch sorts Dataframe data in reverse chronological order"""
 
 
-import pandas as pd
-
-
 def flip_switch(df):
     """sorts Dataframe data in reverse chronological order"""
     sorted_df = df.sort_values(['Timestamp'], ascending=False).T
