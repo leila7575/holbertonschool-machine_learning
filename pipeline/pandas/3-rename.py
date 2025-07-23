@@ -8,7 +8,7 @@ import pandas as pd
 def rename(df):
     """Renames Timestamp column, converts values to datetime
     and selects columns."""
-    new_df = df.rename(columns={"Timestamp": "Datetime"})
-    new_df["Datetime"] = new_df["Datetime"].astype("datetime64[ns]")
-    new_df = new_df.loc[:, ["Datetime", "Close"]]
-    return new_df
+    df = df.rename(columns={"Timestamp": "Datetime"})
+    df["Datetime"] = pd.to_datetime(df["Datetime"], unit='s')
+    df = df.loc[:, ["Datetime", "Close"]]
+    return df
