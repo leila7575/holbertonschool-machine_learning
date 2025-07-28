@@ -1,4 +1,4 @@
-#!/urs/bin/env python3
+#!/usr/bin/env python3
 """Concatenates two sliced dataframe objects,
 rearranges indexes and sorts data."""
 
