@@ -21,5 +21,5 @@ def hierarchy(df1, df2):
         axis=0
     )
     concat_df = concat_df.reorder_levels([1, 0])
-    concat_df = concat_df.sort_values(['Timestamp'], ascending=True)
+    concat_df = concat_df.sort_index(axis=0, ascending=True)
     return concat_df
