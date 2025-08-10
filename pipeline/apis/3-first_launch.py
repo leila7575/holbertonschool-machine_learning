@@ -5,7 +5,7 @@
 import requests
 
 if __name__ == '__main__':
-    url = "https://api.spacexdata.com/v3/launches"
+    url = "https://api.spacexdata.com/v3/launches/upcoming"
     response = requests.get(url)
 
     if response.status_code == 200:
@@ -21,3 +21,4 @@ if __name__ == '__main__':
         )
     else:
         print('Not found')
+
