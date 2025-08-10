@@ -18,7 +18,7 @@ def user_location(url):
         elif response.status_code == 403:
             reset = int(response.headers.get('X-Ratelimit-Reset', 0))
             now = int(time.time())
-            X = (reset - now) / 60
+            X = (reset - now) // 60
             print(f"Reset in {X} min")
         else:
             print("Not found")
