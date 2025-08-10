@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""Displays first launch information"""
+
+
 import requests
 
 if __name__ == '__main__':
