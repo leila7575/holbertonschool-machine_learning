@@ -16,7 +16,7 @@ def availableShips(passengerCount):
             passengers = starship['passengers']
 
             try:
-                passengers_int = int(passengers)
+                passengers_int = int(passengers.replace(',', ''))
             except ValueError:
                 continue
 
